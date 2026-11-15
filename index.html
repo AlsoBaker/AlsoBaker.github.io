@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en" data-theme="day">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vijayesh Thiyagarajan, software engineer</title>
+    <meta name="description" content="Vijayesh Thiyagarajan is a software development engineer at JIME Developers and a Robotics and AI undergraduate at SASTRA. Storefronts, mobile apps, ML and systems work." />
+    <meta name="theme-color" content="#F2F5FB" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%232447D6'/%3E%3Cpath d='M16 5c5 5 7 10 0 22C9 15 11 10 16 5z' fill='%23DCE9FF'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <a class="skip" href="#about">Skip to content</a>
+
+    <div class="loader" aria-hidden="true">
+      <span class="loader-num">0</span>
+      <span class="loader-note">Growing a tree</span>
+    </div>
+
+    <div class="sky" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="moon"></div>
+    </div>
+
+    <!-- Giant words that sit behind the tree -->
+    <div class="backdrop" aria-hidden="true">
+      <div class="bd bd-hero" data-fit="0.94">
+        <span class="bd-line">Vijayesh</span>
+        <span class="bd-line">Thiyagarajan</span>
+      </div>
+      <div class="bd bd-dusk" data-fit="0.64">
+        <span class="bd-line">After hours</span>
+      </div>
+      <div class="bd bd-contact" data-fit="0.6">
+        <span class="bd-line">Say hello</span>
+      </div>
+    </div>
+
+    <canvas id="stage" aria-hidden="true"></canvas>
+
+    <header class="nav">
+      <div class="nav-left">
+        <a class="nav-mark" href="#top" data-scroll>Vijayesh T.</a>
+        <div class="season" aria-hidden="true">
+          <span class="season-name">First buds</span>
+          <div class="season-track"><i class="season-fill"></i></div>
+        </div>
+      </div>
+      <nav aria-label="Sections">
+        <a href="#about" data-scroll>About</a>
+        <a href="#work" data-scroll>Work</a>
+        <a href="#projects" data-scroll>Projects</a>
+        <a href="#contact" data-scroll>Contact</a>
+      </nav>
+      <a class="nav-cv magnet" href="/media/Vijayesh_Thiyagarajan_Resume.pdf" download>Download resume</a>
+    </header>
+
+    <main>
+      <section class="hero" id="top" data-stop="0">
+        <h1 class="sr-only">Vijayesh Thiyagarajan</h1>
+        <p class="hero-intro">
+          Software development engineer at JIME Developers and a Robotics and AI undergrad at SASTRA.
+          I build storefronts, mobile apps, and now and then a Redis clone.
+        </p>
+        <p class="hero-cue"><span class="cue-line"></span>Scroll to make it bloom</p>
+      </section>
+
+      <section class="about" id="about">
+        <div class="about-a" data-stop="1">
+          <p class="statement" data-words>
+            I like the whole stack, from a C event loop pushing 50,000 operations a second
+            to a storefront its owner can edit without calling me. I study robots and
+            neural networks by day, and ship production code for real businesses alongside it.
+          </p>
+        </div>
+
+        <div class="about-b" data-stop="2">
+          <figure class="portrait">
+            <div class="portrait-arch"></div>
+            <img src="/media/portrait.webp" alt="Portrait of Vijayesh Thiyagarajan in a black blazer and white shirt" width="1100" height="1100" />
+          </figure>
+          <dl class="facts pane">
+            <div>
+              <dt>Studying</dt>
+              <dd>B.Tech in Robotics and Artificial Intelligence at SASTRA Deemed University, Thanjavur. Graduating May 2028, CGPA 7.65 with the latest semester at 8.08.</dd>
+            </div>
+            <div>
+              <dt>Working</dt>
+              <dd>Software development engineer at JIME Developers since September 2026, across a live e-commerce store and an Android marketplace app.</dd>
+            </div>
+            <div>
+              <dt>Building with</dt>
+              <dd>C and Python for systems and machine learning, Laravel and Vue on the web, and React Native on mobile.</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="work" id="work" data-stop="3">
+        <div class="work-col pane">
+          <header class="work-head">
+            <h2 class="display" data-rise>JIME Developers</h2>
+            <p class="work-role">Software development engineer<span>September 2026 to now</span></p>
+          </header>
+
+          <article class="build">
+            <h3>YR Lace House, a live store for a tailoring business</h3>
+            <a class="build-link" href="https://yrlacehouse.in" target="_blank" rel="noopener">Visit yrlacehouse.in</a>
+            <ul class="rows">
+              <li>
+                <strong>17 sections the owner edits</strong>
+                <p>Built the Bagisto and Vue 3 storefront, its first admin API and two internal Laravel packages, so the home page changes without a developer.</p>
+              </li>
+              <li>
+                <strong>Quote-only products</strong>
+                <p>Price-on-request items swap the price for a WhatsApp enquiry, drop out of price filters and sorting, and are cleared from carts before checkout. No more accidental orders.</p>
+              </li>
+            </ul>
+          </article>
+
+          <article class="build">
+            <h3>A property marketplace for Tamil Nadu, on Android</h3>
+            <span class="build-link is-note">Pre-release</span>
+            <ul class="rows">
+              <li>
+                <strong>The React Native app</strong>
+                <p>OTP sign-in, a 7-step listing wizard with auto-saved drafts, and district and taluk lookup for about 2,000 PIN codes, built with Expo.</p>
+              </li>
+              <li>
+                <strong>Release builds on GitHub Actions</strong>
+                <p>Moved Android builds off Expo's limited cloud quota, with over-the-air updates and a signing-key fingerprint check before each release.</p>
+              </li>
+              <li>
+                <strong>Three safeguards</strong>
+                <p>An SSRF guard that rejects loopback, private-network and cloud-metadata hosts, a keyed-hash offset that hides exact listing locations, and a release scan for test sign-in code.</p>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="dusk" data-stop="4">
+        <p class="dusk-line">Then the sun goes down, and the side projects come out.</p>
+      </section>
+
+      <section class="projects" id="projects">
+        <div class="projects-pin">
+          <header class="projects-head">
+            <h2 class="display">Projects</h2>
+            <div class="projects-progress"><i></i></div>
+          </header>
+          <div class="track">
+            <article class="panel">
+              <div class="panel-visual">
+                <canvas class="demo-fire" width="640" height="420" role="img" aria-label="Animated grid of agents routing around spreading fire"></canvas>
+                <span class="visual-note">A small live replay of the idea, running in your browser</span>
+              </div>
+              <div class="panel-body">
+                <p class="stack">Python, Pygame, NumPy</p>
+                <h3>AI Firefighter Rescue Simulation</h3>
+                <p class="metric">1,286 of 2,000 rescue score, 40% above a BFS baseline</p>
+                <p>Eight autonomous agents replan with D* Lite as fire spreads by probability across 1,200 cells. A headless, seed-controlled harness ranks four self-built pathfinders under identical conditions: 921, 1,061, 1,192, then 1,286.</p>
+                <div class="links">
+                  <a class="magnet" href="https://firefighter-sim.vercel.app" target="_blank" rel="noopener">Open the live app</a>
+                  <a class="magnet" href="https://drive.google.com/file/d/16XC8qPywEdDmZpRGQBNo1GQBWOkSqeov/view?usp=sharing" target="_blank" rel="noopener">Read the report</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-visual">
+                <canvas class="demo-xray" width="640" height="420" role="img" aria-label="Illustration of a chest scan with a heatmap over one lung"></canvas>
+                <span class="visual-note">An illustration of a Grad-CAM heatmap, not a real scan</span>
+              </div>
+              <div class="panel-body">
+                <p class="stack">TensorFlow, Flask, React, Docker</p>
+                <h3>Chest X-Ray Pneumonia Detection</h3>
+                <p class="metric">93.6% accuracy and 0.983 ROC-AUC on 5,863 X-rays</p>
+                <p>EfficientNetB4 fine-tuned with two-phase transfer learning and 10x test-time augmentation, with Grad-CAM heatmaps that show why. It stays live on a 512 MB free-tier host thanks to lazy model loading that ended the out-of-memory crashes.</p>
+                <div class="links">
+                  <a class="magnet" href="https://chest-xray-pneumonia-detection-bice.vercel.app/" target="_blank" rel="noopener">Open the live app</a>
+                  <a class="magnet" href="https://github.com/AlsoBaker/chest-xray-pneumonia-detection" target="_blank" rel="noopener">View code on GitHub</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-visual is-video">
+                <video class="demo-video" src="/media/pipeline-demo.mp4" poster="/media/pipeline-poster.jpg" muted playsinline loop preload="none" aria-label="Screen recording of the content pipeline publishing a video"></video>
+                <button class="video-toggle" type="button">Play with controls</button>
+              </div>
+              <div class="panel-body">
+                <p class="stack">n8n, AWS EC2, LLM APIs</p>
+                <h3>Multi-Platform AI Content Pipeline</h3>
+                <p class="metric">About 60 minutes of publishing work, down to under 3</p>
+                <p>Drop a video in a folder and it publishes itself. The workflow detects the upload, has an LLM write the title and description, and posts to YouTube, Instagram and Facebook at once. Used across more than 20 videos.</p>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-visual is-term">
+                <div class="demo-redis" role="img" aria-label="Terminal session sending commands to the key-value server">
+                  <pre class="term-out"></pre>
+                  <div class="term-meter"><span>ops per second, 1 core</span><b class="term-ops">50,000</b><i><em></em></i></div>
+                </div>
+              </div>
+              <div class="panel-body">
+                <p class="stack">C, Linux, epoll, pthreads</p>
+                <h3>Redis-Compatible Key-Value Server</h3>
+                <p class="metric">About 50,000 GET and SET operations a second on one core</p>
+                <p>Zero dependencies: a custom FNV-1a hash table with incremental rehashing, atomic persistence and a non-blocking epoll loop. 1,065 automated checks under ThreadSanitizer and AddressSanitizer found no data races across a 4-thread pool.</p>
+                <div class="links">
+                  <a class="magnet" href="https://github.com/AlsoBaker/redis-server-c" target="_blank" rel="noopener">View code on GitHub</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="wins" id="wins" data-stop="7">
+        <div class="wins-col pane">
+          <h2 class="display" data-rise>Outside the day job</h2>
+          <ul class="win-list">
+            <li>
+              <strong>27.37 out of 30, zero collisions</strong>
+              <p>Task 3A of the e-Yantra Robotics Competition 2026-27 at IIT Bombay, in a team working on ROS 2 multi-robot simulation.</p>
+            </li>
+            <li>
+              <strong>Top 12% of applicants</strong>
+              <p>Amazon ML Summer School 2026 online assessment.</p>
+            </li>
+            <li>
+              <strong>National hackathon shortlist</strong>
+              <p>NIT Pragyan 2026, with a symptom-based disease-prediction system.</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="skills" id="skills" data-stop="8">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-row" data-dir="-1">C  C++  Python  TypeScript  Laravel  Flask  React Native  Vue  TensorFlow  ROS 2  Docker  epoll  </div>
+          <div class="marquee-row is-pale" data-dir="1">GitHub Actions  AWS EC2  OpenCV  MySQL  Expo  Tailwind  n8n  Keras  pthreads  Vercel  </div>
+        </div>
+        <div class="skills-grid pane">
+          <h2 class="sr-only">Skills</h2>
+          <div><h3>Languages</h3><p>C, C++, Python, TypeScript, JavaScript, PHP, SQL, HTML, CSS</p></div>
+          <div><h3>Backend and systems</h3><p>Laravel, Flask, REST APIs, MySQL, Linux, epoll, POSIX threads, TCP sockets</p></div>
+          <div><h3>Mobile and frontend</h3><p>React Native, Expo, React, Vue.js, Tailwind CSS</p></div>
+          <div><h3>ML and robotics</h3><p>TensorFlow, Keras, scikit-learn, OpenCV, Grad-CAM, LLM APIs, ROS 2</p></div>
+          <div><h3>DevOps and testing</h3><p>Git, Docker, GitHub Actions, AWS EC2, Vercel, n8n, ThreadSanitizer, AddressSanitizer</p></div>
+          <div><h3>Foundations</h3><p>Data structures, algorithms, OOP, concurrency, multithreading, networking, CI/CD, testing</p></div>
+        </div>
+      </section>
+
+      <section class="contact" id="contact" data-stop="9">
+        <div class="contact-top">
+          <h2 class="contact-title">Have something worth building? I'd like to hear about it.</h2>
+          <div class="contact-actions">
+            <a class="mail magnet" href="mailto:vijayesh684@gmail.com">vijayesh684@gmail.com</a>
+            <button class="copy" type="button" data-copy="vijayesh684@gmail.com">Copy email address</button>
+          </div>
+          <p class="sign" aria-hidden="true">Vijayesh</p>
+        </div>
+        <footer class="foot">
+          <ul class="foot-links">
+            <li><a href="https://github.com/AlsoBaker" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/vijayesh-thiyagarajan-8bb758356" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="/media/Vijayesh_Thiyagarajan_Resume.pdf" download>Resume (PDF)</a></li>
+          </ul>
+          <p class="foot-note">Every branch and petal here is drawn live in your browser.</p>
+        </footer>
+      </section>
+    </main>
+
+    <div class="cursor" aria-hidden="true"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
