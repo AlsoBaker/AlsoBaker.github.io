@@ -354,6 +354,21 @@ videoToggle.addEventListener('click', () => {
   videoToggle.remove();
 });
 
+/* ---------- email link ----------
+   A mailto: link does nothing on a computer with no mail app set up, which is
+   common on Windows and Linux. There the click opens a Gmail draft in a new
+   tab instead. Phones and Macs always have a mail app, so they keep mailto.
+   Trying mailto first and falling back does not work: the attempt uses up
+   the click, and the browser then blocks the new tab as a popup. */
+const mailLink = $('.mail');
+const hasMailApp = /Android|iPhone|iPad|Mac/i.test(navigator.userAgent);
+mailLink.addEventListener('click', (e) => {
+  if (hasMailApp) return;
+  e.preventDefault();
+  const to = encodeURIComponent(mailLink.getAttribute('href').replace(/^mailto:/, ''));
+  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}`, '_blank', 'noopener');
+});
+
 /* ---------- copy email ---------- */
 const copyBtn = $('.copy');
 copyBtn.addEventListener('click', async () => {
