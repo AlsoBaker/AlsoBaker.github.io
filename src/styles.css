@@ -108,7 +108,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
    sky and sets it at dusk; without the script it simply stays up. */
 .sun {
   --d: clamp(5rem, 9vw, 8.5rem);
-  position: absolute; top: 15svh; left: 44%;
+  position: absolute; top: 15svh; left: 47%;
   width: var(--d); aspect-ratio: 1;
   will-change: transform, opacity;
 }
@@ -209,9 +209,37 @@ main { position: relative; z-index: 3; }
   display: flex; flex-direction: column; justify-content: space-between;
 }
 .hero-intro {
-  max-width: 31ch;
+  max-width: 38ch;
   font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.22; font-weight: 600;
   text-wrap: balance;
+}
+/* what a visitor can do next, and what work is on offer */
+.hero-actions { margin-top: 1.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem 0.75rem; }
+.btn {
+  display: inline-flex; align-items: center; height: 2.7rem; padding: 0 1.2rem; border-radius: 999px;
+  font-weight: 700; text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.btn-fill { background: var(--cta); color: var(--cta-ink); }
+.btn-line {
+  border: 1.5px solid var(--ink); background: var(--glass);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.btn-line:hover, .btn-line:focus-visible { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
+.hero-status {
+  display: flex; align-items: baseline; gap: 0.55rem;
+  max-width: 25ch; margin-left: 0.5rem;
+  font-size: 0.95em; font-weight: 600; line-height: 1.25; color: var(--soft);
+}
+.hero-status::before {
+  content: ''; flex: none; width: 0.55em; height: 0.55em; border-radius: 50%;
+  background: var(--accent);
+}
+/* narrower windows: the status line drops under the buttons and the sun
+   moves right, so neither the line nor the intro runs into it */
+@media (max-width: 1200px) {
+  .hero-status { flex-basis: 100%; max-width: 34ch; margin-left: 0; }
+  .sun { left: 52%; }
 }
 
 /* Text that can overlap the tree sits on frosted glass so it stays readable. */
@@ -416,8 +444,15 @@ main { position: relative; z-index: 3; }
   .bd { bottom: 20svh; }
   /* no room beside the tree on a narrow screen, so the words go in front of it */
   .backdrop { z-index: 3; }
-  .sun { --d: 3.6rem; top: 11svh; left: auto; right: 5%; }
+  .sun { --d: 3.2rem; top: 11svh; left: auto; right: 4%; }
   .hero-intro { max-width: 22ch; }
+  /* the status line goes above the buttons, on glass because the tree is behind it */
+  .hero-actions { display: grid; grid-template-columns: auto auto 1fr; justify-items: start; }
+  .hero-status {
+    grid-column: 1 / -1; grid-row: 1; max-width: 100%; margin-left: 0;
+    padding: 0.5rem 0.8rem; border-radius: 0.9rem;
+    background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
   .about-a { align-items: flex-start; min-height: 100svh; }
   .statement { max-width: 100%; }
   .about-b { grid-template-columns: 1fr; align-content: start; }
@@ -435,6 +470,6 @@ main { position: relative; z-index: 3; }
 }
 
 /* slow graphics: drop the live blur behind panes */
-.lite .pane, .lite .panel, .lite .nav-left, .lite .nav nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.lite .pane, .lite .panel, .lite .nav-left, .lite .nav nav, .lite .btn-line, .lite .hero-status { -webkit-backdrop-filter: none; backdrop-filter: none; }
 .lite { --glass: rgb(242 245 251 / 0.9); }
 .lite[data-theme='night'] { --glass: rgb(7 11 36 / 0.86); }

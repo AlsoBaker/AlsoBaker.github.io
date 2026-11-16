@@ -68,7 +68,7 @@ $$('.marquee-row').forEach((row) => {
 });
 
 /* ---------- size the giant backdrop words to the viewport ---------- */
-const heroIntro = $('.hero-intro');
+const heroTop = $('.hero-top');
 const contactSec = $('.contact');
 const contactTop = $('.contact-top');
 const foot = $('.foot');
@@ -89,9 +89,9 @@ function fitBackdrop() {
     let size = (100 * Math.min(vw * fit, vw - pad)) / widest;
     let maxBlock = (lines.length > 1 ? 0.5 : 0.3) * vh;
     if (hero) {
-      // the name must start below the intro paragraph, never under it
+      // the name must start below the intro and its buttons, never under them
       const gapBelow = parseFloat(getComputedStyle(bd).bottom);
-      const room = vh - gapBelow - (heroIntro.offsetTop + heroIntro.offsetHeight) - 28;
+      const room = vh - gapBelow - (heroTop.offsetTop + heroTop.offsetHeight) - 28;
       maxBlock = Math.max(0.2 * vh, Math.min(maxBlock, room));
     }
     let contactGap = 0;
@@ -360,13 +360,14 @@ videoToggle.addEventListener('click', () => {
    tab instead. Phones and Macs always have a mail app, so they keep mailto.
    Trying mailto first and falling back does not work: the attempt uses up
    the click, and the browser then blocks the new tab as a popup. */
-const mailLink = $('.mail');
 const hasMailApp = /Android|iPhone|iPad|Mac/i.test(navigator.userAgent);
-mailLink.addEventListener('click', (e) => {
-  if (hasMailApp) return;
-  e.preventDefault();
-  const to = encodeURIComponent(mailLink.getAttribute('href').replace(/^mailto:/, ''));
-  window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}`, '_blank', 'noopener');
+$$('a[href^="mailto:"]').forEach((link) => {
+  link.addEventListener('click', (e) => {
+    if (hasMailApp) return;
+    e.preventDefault();
+    const to = encodeURIComponent(link.getAttribute('href').replace(/^mailto:/, ''));
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}`, '_blank', 'noopener');
+  });
 });
 
 /* ---------- copy email ---------- */
@@ -384,7 +385,7 @@ copyBtn.addEventListener('click', async () => {
 /* ---------- load, then grow the tree ---------- */
 const loader = $('.loader');
 const loaderNum = $('.loader-num');
-const heroBits = ['.nav', '.hero-intro'];
+const heroBits = ['.nav', '.hero-intro', '.hero-actions'];
 
 function intro() {
   lenis.start();
