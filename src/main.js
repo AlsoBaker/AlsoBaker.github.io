@@ -145,6 +145,18 @@ $$('[data-scroll]').forEach((a) => {
   });
 });
 
+/* ---------- small screens: the section links live in a menu ---------- */
+const navBar = $('.nav');
+const navToggle = $('.nav-toggle');
+function setMenu(open) {
+  navBar.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+}
+navToggle.addEventListener('click', () => setMenu(!navBar.classList.contains('is-open')));
+$$('.nav nav a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+document.addEventListener('pointerdown', (e) => { if (!navBar.contains(e.target)) setMenu(false); });
+
 /* ---------- scroll choreography ----------
    Triggers are created top to bottom, in page order. The projects section is
    pinned, and anything created before it would ignore the space it adds. */
@@ -191,6 +203,9 @@ $$('.marquee-row').forEach((row) => {
     scrollTrigger: { trigger: '.skills', start: 'top bottom', end: 'bottom top', scrub: true },
   });
 });
+riseIn($('.freelance [data-rise]'));
+// opening an answer makes the page longer, so everything below it has moved
+$$('.faq details').forEach((d) => d.addEventListener('toggle', () => ScrollTrigger.refresh()));
 // "Say hello" is fixed behind the page, but rides up with the last stretch of
 // scroll as if it were part of the contact section, so the contact block
 // never passes over it.
@@ -243,6 +258,8 @@ function storyAt(y) {
   return stops[stops.length - 1].t;
 }
 ScrollTrigger.addEventListener('refresh', computeStops);
+// a refresh can change the page's length (the pinned section adds space), so tell the scroller at once
+ScrollTrigger.addEventListener('refresh', () => lenis.resize());
 
 /* ---------- frame loop ---------- */
 const themeMeta = $('meta[name="theme-color"]');
@@ -365,8 +382,10 @@ $$('a[href^="mailto:"]').forEach((link) => {
   link.addEventListener('click', (e) => {
     if (hasMailApp) return;
     e.preventDefault();
-    const to = encodeURIComponent(link.getAttribute('href').replace(/^mailto:/, ''));
-    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${to}`, '_blank', 'noopener');
+    const [to, query = ''] = link.getAttribute('href').replace(/^mailto:/, '').split('?');
+    const subject = new URLSearchParams(query).get('subject');
+    const su = subject ? `&su=${encodeURIComponent(subject)}` : '';
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}${su}`, '_blank', 'noopener');
   });
 });
 

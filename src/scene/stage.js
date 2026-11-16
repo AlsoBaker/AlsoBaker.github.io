@@ -70,7 +70,10 @@ function sample(arr, t) {
 export function createStage(canvas, { mobile = false } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
-  let dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
+  // Phone screens are dense (2.5 to 3 device pixels per CSS pixel), so a low
+  // render resolution shows as blocky branches and petals. Phones start sharp.
+  const startDpr = Math.min(window.devicePixelRatio || 1, mobile ? 2 : 1.75);
+  let dpr = startDpr;
   renderer.setPixelRatio(dpr);
 
   const scene = new THREE.Scene();
@@ -116,6 +119,8 @@ export function createStage(canvas, { mobile = false } = {}) {
   blossomGeo.setAttribute('iA', new THREE.InstancedBufferAttribute(bd.iA, 4));
   blossomGeo.setAttribute('iTint', new THREE.InstancedBufferAttribute(bd.iTint, 1));
   blossomGeo.instanceCount = counts.blossoms;
+  // every instanced layer with its full count, so the counts can be thinned on slow devices
+  const layers = [[blossomGeo, counts.blossoms]];
   const blossomMat = new THREE.ShaderMaterial({
     vertexShader: blossomVert,
     fragmentShader: blossomFrag,
@@ -169,6 +174,7 @@ export function createStage(canvas, { mobile = false } = {}) {
     geo.setAttribute('iSeed', new THREE.InstancedBufferAttribute(seed, 4));
     geo.setAttribute('iOrigin', new THREE.InstancedBufferAttribute(origin, 3));
     geo.instanceCount = n;
+    layers.push([geo, n]);
     const mat = new THREE.ShaderMaterial({
       vertexShader: petalVert,
       fragmentShader: petalFrag,
@@ -296,21 +302,37 @@ export function createStage(canvas, { mobile = false } = {}) {
     pointer.y = y;
   }
 
-  // If frames run slow, step the render resolution down. Frames longer than
-  // 200 ms mean the tab is in the background, so they are ignored.
+  // If frames run slow, give ground one step at a time. Desktop steps the
+  // render resolution down to 0.75. A phone only goes down to 1.5, then thins
+  // the blossoms and petals, and only then drops to 1.25 and no lower, because
+  // on a dense screen low resolution is what makes the tree look pixelated.
+  const steps = [];
+  const floorDpr = mobile ? 1.25 : 0.75;
+  for (let d = startDpr - 0.25; d >= (mobile ? 1.5 : floorDpr) - 0.001; d -= 0.25) steps.push({ dpr: d });
+  if (mobile) {
+    steps.push({ density: 0.8 }, { density: 0.6 });
+    if (startDpr > floorDpr) steps.push({ dpr: floorDpr });
+  }
+  // Phones often hold 30 to 45 frames a second without being in trouble.
+  const slowFrame = mobile ? 0.034 : 0.024;
+
+  // Frames longer than 200 ms mean the tab is in the background, so they are ignored.
   let slow = 0;
   let sampled = 0;
   let onLite = null;
   function watchSpeed(dt) {
     if (dt > 0.2) return;
     sampled++;
-    if (dt > 0.024) slow++;
+    if (dt > slowFrame) slow++;
     if (sampled < 120) return;
     if (slow > 72) {
-      if (dpr > 0.8) {
-        dpr = Math.max(0.75, dpr - 0.25);
+      const step = steps.shift();
+      if (step && step.dpr) {
+        dpr = step.dpr;
         renderer.setPixelRatio(dpr);
         resize();
+      } else if (step) {
+        for (const [geo, full] of layers) geo.instanceCount = Math.floor(full * step.density);
       } else if (onLite) {
         onLite();
         onLite = null;

@@ -1,0 +1,42 @@
+# Vijayesh Thiyagarajan
+
+> Software development engineer at JIME Developers and a Robotics and Artificial Intelligence undergraduate at SASTRA Deemed University (graduating May 2028). Takes freelance projects building mobile apps and AI automations. Site: https://alsobaker.github.io/
+
+## Freelance services
+
+- Mobile apps: Android and cross-platform apps in React Native and Expo, from sign-in to release builds.
+- AI automations: workflows in n8n with LLM APIs that take over repetitive work such as writing copy, publishing content and sending notifications.
+- To start a project, email vijayesh684@gmail.com with what you want built, who it is for and any deadline.
+
+## Work at JIME Developers (September 2026 to present)
+
+- YR Lace House (https://yrlacehouse.in): a live online store for a tailoring business. Built the storefront on Bagisto and Vue 3 with its first admin API, so the owner can update all 17 home-page sections without a developer. Quote-only products show a WhatsApp enquiry in place of the price and are removed from the cart before checkout.
+- A pre-launch Android property marketplace for Tamil Nadu, in React Native: OTP sign-in, a 7-step listing form with auto-saved drafts, district and taluk lookup covering about 2,000 PIN codes, release builds on GitHub Actions with over-the-air updates and a signing-key check.
+
+## Projects
+
+- [AI Firefighter Rescue Simulation](https://firefighter-sim.vercel.app): Python, Pygame, NumPy. Eight agents replan with D* Lite as fire spreads through a 3-floor, 1,200-cell building. Scored 1,286 of 2,000, 40% above a standard baseline of 921, across four self-built pathfinders (A*, BFS, Dijkstra, D* Lite).
+- [Chest X-Ray Pneumonia Detection](https://chest-xray-pneumonia-detection-bice.vercel.app/): TensorFlow, Flask, React, Docker. Fine-tuned EfficientNetB4 with 93.6% accuracy and 0.983 ROC-AUC on 5,863 X-rays, with Grad-CAM heatmaps. [Code](https://github.com/AlsoBaker/chest-xray-pneumonia-detection).
+- AI Content Publishing Pipeline: n8n, AWS EC2, LLM APIs. Cut publishing a video from about 60 minutes to under 3, across more than 20 videos. Detects new files in a Google Drive folder, writes the title and description with an LLM, posts to YouTube and emails a notification.
+- [Redis-Compatible Key-Value Server](https://github.com/AlsoBaker/redis-server-c): C, Linux, epoll, pthreads. About 50,000 GET and SET operations a second on one core, zero dependencies, 1,065 automated checks under ThreadSanitizer and AddressSanitizer.
+
+## Recognition
+
+- Scored 27.37 out of 30 with zero collisions on Task 3A of the e-Yantra Robotics Competition 2026-27 (IIT Bombay), in a team working on ROS 2 multi-robot simulation.
+- Top 12% of applicants in the Amazon ML Summer School 2026 online assessment.
+- Shortlisted for the NIT Pragyan 2026 national hackathon with a symptom-based disease-prediction system.
+
+## Skills
+
+- Languages: Python, TypeScript, JavaScript, PHP, SQL, C, C++, HTML, CSS
+- Mobile and frontend: React Native, Expo, React, Vue 3, Tailwind CSS
+- Backend and systems: Laravel, Bagisto, Flask, REST APIs, MySQL, Linux, epoll, POSIX threads
+- ML and robotics: TensorFlow, Keras, scikit-learn, OpenCV, NumPy, Grad-CAM, LLM APIs, ROS 2
+- Tools and deployment: Git, GitHub Actions, Docker, AWS EC2, Vercel, Hugging Face Spaces, n8n
+
+## Contact
+
+- Email: vijayesh684@gmail.com
+- GitHub: https://github.com/AlsoBaker
+- LinkedIn: https://www.linkedin.com/in/vijayesh-thiyagarajan
+- Resume (PDF): https://alsobaker.github.io/media/Vijayesh_Thiyagarajan_Resume.pdf
