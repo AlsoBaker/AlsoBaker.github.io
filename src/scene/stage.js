@@ -29,7 +29,7 @@ const CAM = [
   { p: [1.0, 1.6, 19.5],  t: [-6.4, 5.0, 0] },
 ];
 
-const HERO_SHIFT = 1.2; // world units
+const HERO_LOOK_MAX = 5.4; // world units left of the trunk
 
 // Colours at day, dusk and night.
 const PALETTE = {
@@ -240,18 +240,33 @@ export function createStage(canvas, { mobile = false } = {}) {
   function buildCurves(aspect) {
     const narrow = aspect < 0.8;
     const P = CAM.map(({ p }) => new THREE.Vector3(narrow ? p[0] * 0.25 : p[0], p[1], narrow ? p[2] * 1.3 : p[2]));
-    // On wide screens the hero looks a little further left, which sets the
-    // tree further right, clear of the name. Squarer windows get less of it,
-    // or the canopy would run off the right edge.
-    const heroShift = HERO_SHIFT * Math.min(1, Math.max(0, (aspect - 1.5) / 0.5));
+    // In the hero the camera looks left of the tree, which sets the tree to
+    // the right of the name. It goes as far right as the window allows: the
+    // view is about 6.22 * aspect units wide either side of centre, and the
+    // canopy needs about 7.5 of them to the right of the trunk.
+    const heroLook = -Math.min(HERO_LOOK_MAX, Math.max(-CAM[0].t[0], 6.22 * aspect - 7.5));
     const T = CAM.map(({ t }, i) => new THREE.Vector3(
-      narrow ? t[0] * 0.15 : t[0] - (i === 0 ? heroShift : 0),
+      narrow ? t[0] * 0.15 : i === 0 ? heroLook : t[0],
       narrow ? t[1] + 0.9 : t[1],
       t[2],
     ));
     posCurve = new THREE.CatmullRomCurve3(P, false, 'catmullrom', 0.35);
     tgtCurve = new THREE.CatmullRomCurve3(T, false, 'catmullrom', 0.35);
     camera.fov = narrow ? 50 : 40;
+  }
+
+  // Where the trunk stands in the hero, as a fraction of the screen width.
+  const probe = new THREE.PerspectiveCamera();
+  const probeAt = new THREE.Vector3();
+  let heroTrunk = 0.5;
+  function findTrunk() {
+    probe.fov = camera.fov;
+    probe.aspect = camera.aspect;
+    probe.position.copy(posCurve.getPoint(0, probeAt));
+    probe.lookAt(tgtCurve.getPoint(0, probeAt));
+    probe.updateProjectionMatrix();
+    probe.updateMatrixWorld();
+    heroTrunk = probeAt.set(0, 0.6, 0).project(probe).x * 0.5 + 0.5;
   }
 
   const state = { grow: 0, story: 0, night: 0 };
@@ -272,6 +287,7 @@ export function createStage(canvas, { mobile = false } = {}) {
     camera.aspect = w / h;
     buildCurves(camera.aspect);
     camera.updateProjectionMatrix();
+    findTrunk();
   }
   resize();
 
@@ -355,5 +371,9 @@ export function createStage(canvas, { mobile = false } = {}) {
     renderer.render(scene, camera);
   }
 
-  return { state, sky, render, resize, setPointer, stops: CAM.length, set onLite(fn) { onLite = fn; } };
+  return {
+    state, sky, render, resize, setPointer, stops: CAM.length,
+    get heroTrunk() { return heroTrunk; },
+    set onLite(fn) { onLite = fn; },
+  };
 }

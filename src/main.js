@@ -72,7 +72,8 @@ const heroIntro = $('.hero-intro');
 const contactSec = $('.contact');
 const contactTop = $('.contact-top');
 const foot = $('.foot');
-let helloFade = 48; // px of scroll over which "Say hello" fades in on small screens
+let stage = null;
+let helloRise = 400; // px "Say hello" travels up into place with the last of the page
 function fitBackdrop() {
   const vw = root.clientWidth;
   const vh = window.innerHeight;
@@ -81,15 +82,19 @@ function fitBackdrop() {
     bd.style.fontSize = '100px';
     const widest = Math.max(...lines.map((l) => l.getBoundingClientRect().width));
     const pad = parseFloat(getComputedStyle(bd).paddingLeft) * 2;
-    let size = (100 * Math.min(vw * Number(bd.dataset.fit), vw - pad)) / widest;
+    let fit = Number(bd.dataset.fit);
+    const hero = bd.classList.contains('bd-hero');
+    // In landscape the tree stands to the right, and the name stops short of its trunk.
+    if (hero && stage && vw / vh >= 0.8) fit = Math.min(fit, stage.heroTrunk - 0.07 - pad / 2 / vw);
+    let size = (100 * Math.min(vw * fit, vw - pad)) / widest;
     let maxBlock = (lines.length > 1 ? 0.5 : 0.3) * vh;
-    if (bd.classList.contains('bd-hero')) {
+    if (hero) {
       // the name must start below the intro paragraph, never under it
       const gapBelow = parseFloat(getComputedStyle(bd).bottom);
       const room = vh - gapBelow - (heroIntro.offsetTop + heroIntro.offsetHeight) - 28;
       maxBlock = Math.max(0.2 * vh, Math.min(maxBlock, room));
     }
-    let contactRoom = 0;
+    let contactGap = 0;
     if (bd.classList.contains('bd-contact')) {
       // "Say hello" goes in the gap between the contact block (with the
       // signature) and the footer, never under either. At the end of the page
@@ -100,29 +105,26 @@ function fitBackdrop() {
       bd.style.bottom = '';
       const gap = Math.max(parseFloat(getComputedStyle(bd).bottom), footH + 12);
       bd.style.bottom = `${gap.toFixed(0)}px`;
-      contactRoom = below - gap - 28;
-      bd.style.visibility = contactRoom < 40 ? 'hidden' : '';
-      maxBlock = Math.min(maxBlock, Math.max(contactRoom, 1));
+      const room = below - gap - 28;
+      bd.style.visibility = room < 40 ? 'hidden' : '';
+      maxBlock = Math.min(maxBlock, Math.max(room, 1));
+      contactGap = gap;
     }
     size = Math.min(size, maxBlock / (lines.length * 0.85));
-    if (contactRoom) {
-      // wait until the contact block has scrolled clear of the words
-      const clear = contactRoom - size * 0.85;
-      helloFade = Math.min(0.45 * vh, Math.max(48, clear));
-    }
+    // far enough that the words start just below the screen
+    if (contactGap) helloRise = contactGap + size * 0.85 + 12;
     bd.style.fontSize = `${size.toFixed(1)}px`;
   });
 }
-fitBackdrop();
 
 /* ---------- the tree ---------- */
-let stage = null;
 try {
   stage = createStage($('#stage'), { mobile: narrow.matches });
 } catch (err) {
   console.warn('WebGL is unavailable, so the tree is not shown.', err);
   root.classList.add('no-webgl');
 }
+fitBackdrop();
 
 /* ---------- smooth scrolling ---------- */
 const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.95 });
@@ -189,12 +191,14 @@ $$('.marquee-row').forEach((row) => {
     scrollTrigger: { trigger: '.skills', start: 'top bottom', end: 'bottom top', scrub: true },
   });
 });
-gsap.fromTo('.bd-contact', { opacity: 0, yPercent: 20 }, {
-  opacity: 1, yPercent: 0, ease: 'none',
+// "Say hello" is fixed behind the page, but rides up with the last stretch of
+// scroll as if it were part of the contact section, so the contact block
+// never passes over it.
+gsap.fromTo('.bd-contact', { opacity: 1, y: () => helloRise }, {
+  y: 0, ease: 'none',
   scrollTrigger: {
-    trigger: '.contact', scrub: true, end: 'bottom bottom',
-    // small screens: fade in only once the contact block is out of the way
-    start: () => (narrow.matches ? `bottom bottom+=${Math.round(helloFade)}` : 'top 45%'),
+    trigger: '.contact', scrub: true, invalidateOnRefresh: true,
+    start: () => `bottom bottom+=${Math.round(helloRise)}`, end: 'bottom bottom',
   },
 });
 ScrollTrigger.sort();
@@ -242,6 +246,10 @@ ScrollTrigger.addEventListener('refresh', computeStops);
 
 /* ---------- frame loop ---------- */
 const themeMeta = $('meta[name="theme-color"]');
+const sunEl = $('.sun');
+// sideways drift of the sun, in vw, at story stops 0 to 4
+const SUN_PATH = { wide: [0, 6, 10, -16, -18], narrow: [0, -4, -8, -14, -18] };
+let sunWas = '';
 let theme = 'day';
 let skyTop = '';
 let skyHor = '';
@@ -259,6 +267,21 @@ gsap.ticker.add((time, delta) => {
     if (stage.sky.top !== skyTop) { skyTop = stage.sky.top; root.style.setProperty('--sky-top', skyTop); }
     if (stage.sky.hor !== skyHor) { skyHor = stage.sky.hor; root.style.setProperty('--sky-hor', skyHor); }
     root.style.setProperty('--moon', Math.max(0, (stage.state.night - 0.45) / 0.55).toFixed(3));
+    // The sun comes up once the loader has lifted, late in the tree's growth,
+    // and goes down as dusk arrives. Sideways it follows the camera: right
+    // with the tree through About, then left of the Work card to set there.
+    const risen = Math.min(1, Math.max(0, (stage.state.grow - 0.6) / 0.37));
+    const up = risen * Math.max(0, 1 - stage.state.night / 0.45);
+    const s = Math.min(3.999, Math.max(0, stage.state.story));
+    const path = narrow.matches ? SUN_PATH.narrow : SUN_PATH.wide;
+    const sunX = path[s | 0] + (path[(s | 0) + 1] - path[s | 0]) * (s % 1);
+    const sunY = (1 - up) * 26 - Math.sin((s / 4) * Math.PI) * 4;
+    const sunAt = `translate3d(${sunX.toFixed(2)}vw, ${sunY.toFixed(2)}vh, 0)`;
+    if (sunAt !== sunWas) {
+      sunWas = sunAt;
+      sunEl.style.transform = sunAt;
+      sunEl.style.opacity = up.toFixed(3);
+    }
     const next = stage.state.night > 0.5 ? 'night' : 'day';
     if (next !== theme) {
       theme = next;
@@ -269,8 +292,8 @@ gsap.ticker.add((time, delta) => {
 });
 
 window.addEventListener('resize', () => {
-  fitBackdrop();
   if (stage) stage.resize();
+  fitBackdrop();
 });
 
 /* ---------- pointer: camera drift, cursor, magnetic buttons ---------- */
