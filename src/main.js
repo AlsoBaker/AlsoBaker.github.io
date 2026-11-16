@@ -213,12 +213,8 @@ function storyAt(y) {
 ScrollTrigger.addEventListener('refresh', computeStops);
 
 /* ---------- frame loop ---------- */
-const seasonName = $('.season-name');
-const SEASONS = ['First buds', 'Opening', 'Full bloom', 'Petal fall'];
-const seasonFill = $('.season-fill');
 const themeMeta = $('meta[name="theme-color"]');
 let theme = 'day';
-let season = -1;
 let skyTop = '';
 let skyHor = '';
 
@@ -242,14 +238,6 @@ gsap.ticker.add((time, delta) => {
       themeMeta.setAttribute('content', theme === 'night' ? '#070B24' : '#F2F5FB');
     }
   }
-
-  const s = target < 0.6 ? 0 : target < 3.4 ? 1 : target < 6.3 ? 2 : 3;
-  if (s !== season) {
-    season = s;
-    seasonName.textContent = SEASONS[s];
-  }
-  const max = ScrollTrigger.maxScroll(window) || 1;
-  seasonFill.style.transform = `scaleX(${Math.min(1, y / max).toFixed(4)})`;
 });
 
 window.addEventListener('resize', () => {
@@ -330,7 +318,7 @@ copyBtn.addEventListener('click', async () => {
 /* ---------- load, then grow the tree ---------- */
 const loader = $('.loader');
 const loaderNum = $('.loader-num');
-const heroBits = ['.nav', '.hero-intro', '.hero-cue'];
+const heroBits = ['.nav', '.hero-intro'];
 
 function intro() {
   lenis.start();

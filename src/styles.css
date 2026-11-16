@@ -177,16 +177,6 @@ main { position: relative; z-index: 3; }
   transition: background 0.6s ease, color 0.6s ease;
 }
 
-/* which stage the tree is in, and how far down the page you are */
-.season {
-  display: flex; align-items: center; gap: 0.6rem;
-  padding-left: 1rem; border-left: 1px solid var(--line);
-  font-size: 0.875rem; font-weight: 700;
-}
-.season-name { min-width: 5.2em; }
-.season-track { width: 3.6rem; height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.season-fill { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
-
 /* ---------- hero ---------- */
 .hero {
   min-height: 100svh;
@@ -197,14 +187,6 @@ main { position: relative; z-index: 3; }
   max-width: 31ch;
   font-size: clamp(1.25rem, 1.9vw, 1.75rem); line-height: 1.22; font-weight: 600;
   text-wrap: balance;
-}
-.hero-cue { display: flex; align-items: center; gap: 0.9rem; font-weight: 600; }
-.cue-line { width: 3.2rem; height: 2px; background: currentColor; transform-origin: left; animation: cue 2.4s var(--ease) infinite; }
-@keyframes cue {
-  0% { transform: scaleX(0); transform-origin: left; }
-  50% { transform: scaleX(1); transform-origin: left; }
-  51% { transform: scaleX(1); transform-origin: right; }
-  100% { transform: scaleX(0); transform-origin: right; }
 }
 
 /* Text that can overlap the tree sits on frosted glass so it stays readable. */
@@ -402,10 +384,7 @@ main { position: relative; z-index: 3; }
 @media (max-width: 900px) {
   .nav nav { display: none; }
   .nav-cv { margin-left: auto; padding: 0 1rem; font-size: 0.9375rem; }
-  .season-track { display: none; }
-  .season-name { min-width: 0; }
   .nav-left { padding: 0 0.9rem; gap: 0.7rem; }
-  .season { padding-left: 0.7rem; font-size: 0.8125rem; }
   .bd { bottom: 20svh; }
   .hero-intro { max-width: 22ch; }
   .about-a { align-items: flex-start; min-height: 100svh; }
@@ -428,7 +407,3 @@ main { position: relative; z-index: 3; }
 .lite .pane, .lite .panel, .lite .nav-left, .lite .nav nav { -webkit-backdrop-filter: none; backdrop-filter: none; }
 .lite { --glass: rgb(242 245 251 / 0.9); }
 .lite[data-theme='night'] { --glass: rgb(7 11 36 / 0.86); }
-
-@media (max-width: 430px) {
-  .season { display: none; }
-}
