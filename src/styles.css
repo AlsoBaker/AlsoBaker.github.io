@@ -9,6 +9,10 @@
   --glass: rgb(242 245 251 / 0.72);
   --sky-top: #bcd0f5;
   --sky-hor: #f2f5fb;
+  /* filled buttons and highlighted figures; these change colour after dark */
+  --cta: var(--ink);
+  --cta-ink: var(--paper);
+  --hi: var(--ink);
 
   --display: 'Sofia Sans Extra Condensed Variable', 'Arial Narrow', sans-serif;
   --body: 'Sofia Sans Variable', system-ui, sans-serif;
@@ -22,10 +26,13 @@
   --paper: #070b24;
   --ink: #eef3ff;
   --soft: #b1bfec;
-  --accent: #9dbcff;
+  --accent: #7bd2d3;
   --line: rgb(238 243 255 / 0.2);
   --bd: #3454e4;
   --glass: rgb(7 11 36 / 0.62);
+  --cta: #aaeec4;
+  --cta-ink: #06122b;
+  --hi: #e6f27a;
 }
 
 /* ---------- base ---------- */
@@ -100,8 +107,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .moon {
   position: absolute; top: 11%; right: 13%;
   width: clamp(5rem, 9vw, 9rem); aspect-ratio: 1; border-radius: 50%;
-  background: radial-gradient(circle at 38% 36%, #ffffff 0%, #dbe7ff 55%, #a9c1ff 100%);
-  box-shadow: 0 0 60px 18px rgb(120 160 255 / 0.35), 0 0 180px 80px rgb(70 110 255 / 0.22);
+  background: radial-gradient(circle at 38% 36%, #ffffff 0%, #dcf6f6 55%, #9fdcde 100%);
+  box-shadow: 0 0 60px 18px rgb(123 210 211 / 0.38), 0 0 180px 80px rgb(40 150 190 / 0.22);
   opacity: var(--moon, 0);
   transform: translate3d(0, calc((1 - var(--moon, 0)) * 14vh), 0);
 }
@@ -172,7 +179,7 @@ main { position: relative; z-index: 3; }
 .nav nav a:hover::after, .nav nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
 .nav-cv {
   display: inline-flex; align-items: center; height: 2.9rem; padding: 0 1.25rem; border-radius: 999px;
-  background: var(--ink); color: var(--paper);
+  background: var(--cta); color: var(--cta-ink);
   font-weight: 700; text-decoration: none;
   transition: background 0.6s ease, color 0.6s ease;
 }
@@ -290,7 +297,7 @@ main { position: relative; z-index: 3; }
 .panel-body { padding: clamp(1.4rem, 2.6vw, 2.8rem); display: flex; flex-direction: column; justify-content: center; gap: 0.9rem; overflow: hidden; }
 .stack { font-weight: 700; color: var(--accent); }
 .panel h3 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(2.2rem, 4vw, 4rem); line-height: 0.88; text-wrap: balance; }
-.metric { font-weight: 750; font-size: 1.16em; line-height: 1.25; text-wrap: balance; }
+.metric { font-weight: 750; font-size: 1.16em; line-height: 1.25; text-wrap: balance; color: var(--hi); transition: color 0.6s ease; }
 .panel-body > p:not(.stack):not(.metric) { color: var(--soft); }
 .links { display: flex; flex-wrap: wrap; gap: 0.7rem; padding-top: 0.6rem; }
 .links a {
@@ -298,7 +305,7 @@ main { position: relative; z-index: 3; }
   border: 1.5px solid var(--ink); font-weight: 700; text-decoration: none;
   transition: background 0.3s ease, color 0.3s ease;
 }
-.links a:hover, .links a:focus-visible { background: var(--ink); color: var(--paper); }
+.links a:hover, .links a:focus-visible { background: var(--cta); border-color: var(--cta); color: var(--cta-ink); }
 
 .demo-redis { width: 100%; height: 100%; padding: 1.4rem; display: flex; flex-direction: column; justify-content: space-between; color: #dce9ff; font-family: var(--mono); font-size: clamp(0.8rem, 1.05vw, 0.98rem); }
 .term-out { margin: 0; white-space: pre-wrap; line-height: 1.65; font-family: inherit; min-height: 12em; }
@@ -347,8 +354,9 @@ main { position: relative; z-index: 3; }
 .contact-actions { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; }
 .mail {
   display: inline-block; padding: 0.9rem 1.6rem; border-radius: 999px;
-  background: var(--ink); color: var(--paper);
+  background: var(--cta); color: var(--cta-ink);
   font-weight: 750; font-size: 1.2em; text-decoration: none;
+  transition: background 0.6s ease, color 0.6s ease;
 }
 .copy { font-weight: 700; text-decoration: underline; text-underline-offset: 0.22em; }
 .foot { display: grid; gap: 0.6rem; }
@@ -356,6 +364,8 @@ main { position: relative; z-index: 3; }
 .foot-links a { text-underline-offset: 0.22em; }
 .sign { width: max-content; margin-top: 1.6rem; font-family: var(--script); font-size: clamp(3.2rem, 5.4vw, 5.4rem); line-height: 0.9; padding: 0 0.6rem; transform: rotate(-4deg); transform-origin: left; color: var(--accent); }
 .foot-note { color: var(--soft); font-size: 0.9em; }
+/* after dark the signature reads as a neon tube */
+:root[data-theme='night'] .sign { text-shadow: 0 0 0.35em rgb(123 210 211 / 0.55); }
 
 /* ---------- cursor ---------- */
 .cursor {

@@ -69,6 +69,10 @@ $$('.marquee-row').forEach((row) => {
 
 /* ---------- size the giant backdrop words to the viewport ---------- */
 const heroIntro = $('.hero-intro');
+const contactSec = $('.contact');
+const contactTop = $('.contact-top');
+const foot = $('.foot');
+let helloFade = 48; // px of scroll over which "Say hello" fades in on small screens
 function fitBackdrop() {
   const vw = root.clientWidth;
   const vh = window.innerHeight;
@@ -85,7 +89,27 @@ function fitBackdrop() {
       const room = vh - gapBelow - (heroIntro.offsetTop + heroIntro.offsetHeight) - 28;
       maxBlock = Math.max(0.2 * vh, Math.min(maxBlock, room));
     }
+    let contactRoom = 0;
+    if (bd.classList.contains('bd-contact')) {
+      // "Say hello" goes in the gap between the contact block (with the
+      // signature) and the footer, never under either. At the end of the page
+      // the section's bottom edge is the viewport's, so measure up from there.
+      const secBottom = contactSec.offsetTop + contactSec.offsetHeight;
+      const below = secBottom - (contactTop.offsetTop + contactTop.offsetHeight);
+      const footH = secBottom - foot.offsetTop;
+      bd.style.bottom = '';
+      const gap = Math.max(parseFloat(getComputedStyle(bd).bottom), footH + 12);
+      bd.style.bottom = `${gap.toFixed(0)}px`;
+      contactRoom = below - gap - 28;
+      bd.style.visibility = contactRoom < 40 ? 'hidden' : '';
+      maxBlock = Math.min(maxBlock, Math.max(contactRoom, 1));
+    }
     size = Math.min(size, maxBlock / (lines.length * 0.85));
+    if (contactRoom) {
+      // wait until the contact block has scrolled clear of the words
+      const clear = contactRoom - size * 0.85;
+      helloFade = Math.min(0.45 * vh, Math.max(48, clear));
+    }
     bd.style.fontSize = `${size.toFixed(1)}px`;
   });
 }
@@ -167,7 +191,11 @@ $$('.marquee-row').forEach((row) => {
 });
 gsap.fromTo('.bd-contact', { opacity: 0, yPercent: 20 }, {
   opacity: 1, yPercent: 0, ease: 'none',
-  scrollTrigger: { trigger: '.contact', start: 'top 45%', end: 'bottom bottom', scrub: true },
+  scrollTrigger: {
+    trigger: '.contact', scrub: true, end: 'bottom bottom',
+    // small screens: fade in only once the contact block is out of the way
+    start: () => (narrow.matches ? `bottom bottom+=${Math.round(helloFade)}` : 'top 45%'),
+  },
 });
 ScrollTrigger.sort();
 

@@ -29,12 +29,15 @@ const CAM = [
   { p: [1.0, 1.6, 19.5],  t: [-6.4, 5.0, 0] },
 ];
 
+const HERO_SHIFT = 1.2; // world units
+
 // Colours at day, dusk and night.
 const PALETTE = {
   skyTop: ['#BCD0F5', '#5C74D6', '#040824'],
   skyHor: ['#F2F5FB', '#C7D3F6', '#16236A'],
   bark:   ['#161C4A', '#10153C', '#070B22'],
-  rim:    ['#5B7FE8', '#6F8FF0', '#4A6CF0'],
+  rim:    ['#5B7FE8', '#6F8FF0', '#55B0DE'],
+  stamen: ['#FFE9B0', '#FFE9B0', '#E6F27A'],
   petalA: ['#2F55DC', '#2F56E0', '#345CF0'],
   petalB: ['#9DBBFF', '#A4BEFF', '#A9C4FF'],
   core:   ['#1B2F9E', '#1D33A8', '#2038B8'],
@@ -123,7 +126,7 @@ export function createStage(canvas, { mobile = false } = {}) {
       uPetalA: { value: new THREE.Color() },
       uPetalB: { value: new THREE.Color() },
       uCore: { value: new THREE.Color() },
-      uStamen: { value: new THREE.Color('#FFE9B0') },
+      uStamen: { value: new THREE.Color() },
     },
   });
   const blossoms = new THREE.Mesh(blossomGeo, blossomMat);
@@ -142,6 +145,12 @@ export function createStage(canvas, { mobile = false } = {}) {
     uWindDir: { value: new THREE.Vector2(0.75, 0.3) },
     uPetalA: { value: new THREE.Color() },
     uPetalB: { value: new THREE.Color() },
+    // After dark a share of the loose petals pick up an oil-slick sheen.
+    uIrid: { value: 0 },
+    uIr0: { value: new THREE.Color('#E23BB4') },
+    uIr1: { value: new THREE.Color('#8A4BE0') },
+    uIr2: { value: new THREE.Color('#7BD2D3') },
+    uIr3: { value: new THREE.Color('#F2D34B') },
   };
   function petalLayer(mode, n, originFn) {
     const geo = new THREE.InstancedBufferGeometry();
@@ -212,7 +221,7 @@ export function createStage(canvas, { mobile = false } = {}) {
   hc.fillRect(0, 0, 128, 128);
   const haloMat = new THREE.SpriteMaterial({
     map: new THREE.CanvasTexture(haloCanvas),
-    color: new THREE.Color('#4466FF'),
+    color: new THREE.Color('#3FC4D4'),
     blending: THREE.AdditiveBlending,
     depthWrite: false,
     depthTest: false,
@@ -231,7 +240,15 @@ export function createStage(canvas, { mobile = false } = {}) {
   function buildCurves(aspect) {
     const narrow = aspect < 0.8;
     const P = CAM.map(({ p }) => new THREE.Vector3(narrow ? p[0] * 0.25 : p[0], p[1], narrow ? p[2] * 1.3 : p[2]));
-    const T = CAM.map(({ t }) => new THREE.Vector3(narrow ? t[0] * 0.15 : t[0], narrow ? t[1] + 0.9 : t[1], t[2]));
+    // On wide screens the hero looks a little further left, which sets the
+    // tree further right, clear of the name. Squarer windows get less of it,
+    // or the canopy would run off the right edge.
+    const heroShift = HERO_SHIFT * Math.min(1, Math.max(0, (aspect - 1.5) / 0.5));
+    const T = CAM.map(({ t }, i) => new THREE.Vector3(
+      narrow ? t[0] * 0.15 : t[0] - (i === 0 ? heroShift : 0),
+      narrow ? t[1] + 0.9 : t[1],
+      t[2],
+    ));
     posCurve = new THREE.CatmullRomCurve3(P, false, 'catmullrom', 0.35);
     tgtCurve = new THREE.CatmullRomCurve3(T, false, 'catmullrom', 0.35);
     camera.fov = narrow ? 50 : 40;
@@ -313,6 +330,8 @@ export function createStage(canvas, { mobile = false } = {}) {
     setCol(blossomMat.uniforms.uPetalA, 'petalA', night);
     setCol(blossomMat.uniforms.uPetalB, 'petalB', night);
     setCol(blossomMat.uniforms.uCore, 'core', night);
+    setCol(blossomMat.uniforms.uStamen, 'stamen', night);
+    petalUniforms.uIrid.value = Math.max(0, (night - 0.5) / 0.5); // starts as the page theme turns to night
     setCol(petalUniforms.uPetalA, 'fallA', night);
     setCol(petalUniforms.uPetalB, 'fallB', night);
     setCol(groundMat.uniforms.uGround, 'ground', night);

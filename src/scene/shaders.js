@@ -238,10 +238,25 @@ uniform vec3 uFog;
 uniform float uFogNear;
 uniform float uFogFar;
 uniform float uGlow;
+uniform float uIrid;
+uniform vec3 uIr0;
+uniform vec3 uIr1;
+uniform vec3 uIr2;
+uniform vec3 uIr3;
 varying vec2 vUv;
 varying float vDist;
 varying float vLight;
 varying float vSeed;
+
+// magenta, violet, aqua, gold, and round again
+vec3 sheen(float h) {
+  h = fract(h) * 4.0;
+  float f = smoothstep(0.0, 1.0, fract(h));
+  if (h < 1.0) return mix(uIr0, uIr1, f);
+  if (h < 2.0) return mix(uIr1, uIr2, f);
+  if (h < 3.0) return mix(uIr2, uIr3, f);
+  return mix(uIr3, uIr0, f);
+}
 void main() {
   vec2 p = vUv * 2.0 - 1.0;
   float e = length(vec2(p.x / 0.62, (p.y - 0.12) / 0.82));
@@ -252,6 +267,9 @@ void main() {
   float alpha = 1.0 - smoothstep(-0.1, 0.0, d);
   if (alpha < 0.05) discard;
   vec3 col = mix(uPetalA, uPetalB, smoothstep(-0.9, 0.5, p.y));
+  // up to two petals in five turn iridescent at night; the hue slides as each one tumbles
+  float pick = smoothstep(0.0, 0.06, 0.4 * uIrid - fract(vSeed * 7.31 + 0.17));
+  col = mix(col, sheen(vSeed * 3.0 + vLight * 0.6 + p.y * 0.12), pick * 0.85);
   col *= mix(0.8, 1.08, vLight);
   col = mix(col, vec3(1.0), vSeed * vSeed * 0.25);
   col += uPetalB * uGlow * 0.1;
