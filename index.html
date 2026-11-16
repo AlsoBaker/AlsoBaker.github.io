@@ -81,7 +81,7 @@
           <dl class="facts pane">
             <div>
               <dt>Studying</dt>
-              <dd>B.Tech in Robotics and Artificial Intelligence at SASTRA Deemed University, Thanjavur. Graduating May 2028, CGPA 7.65 with the latest semester at 8.08.</dd>
+              <dd>B.Tech in Robotics and Artificial Intelligence at SASTRA Deemed University, Thanjavur. Graduating May 2028.</dd>
             </div>
             <div>
               <dt>Working</dt>
@@ -108,30 +108,26 @@
             <ul class="rows">
               <li>
                 <strong>17 sections the owner edits</strong>
-                <p>Built the Bagisto and Vue 3 storefront, its first admin API and two internal Laravel packages, so the home page changes without a developer.</p>
+                <p>Built the storefront on Bagisto and Vue 3 with its first admin API, so the owner can update all 17 home-page sections without a developer.</p>
               </li>
               <li>
                 <strong>Quote-only products</strong>
-                <p>Price-on-request items swap the price for a WhatsApp enquiry, drop out of price filters and sorting, and are cleared from carts before checkout. No more accidental orders.</p>
+                <p>Price-on-request items show a WhatsApp enquiry in place of the price and are removed from the cart before checkout. No more accidental orders.</p>
               </li>
             </ul>
           </article>
 
           <article class="build">
             <h3>A property marketplace for Tamil Nadu, on Android</h3>
-            <span class="build-link is-note">Pre-release</span>
+            <span class="build-link is-note">Pre-launch</span>
             <ul class="rows">
               <li>
                 <strong>The React Native app</strong>
-                <p>OTP sign-in, a 7-step listing wizard with auto-saved drafts, and district and taluk lookup for about 2,000 PIN codes, built with Expo.</p>
+                <p>OTP sign-in, a 7-step listing form with auto-saved drafts, and district and taluk lookup covering about 2,000 PIN codes.</p>
               </li>
               <li>
                 <strong>Release builds on GitHub Actions</strong>
-                <p>Moved Android builds off Expo's limited cloud quota, with over-the-air updates and a signing-key fingerprint check before each release.</p>
-              </li>
-              <li>
-                <strong>Three safeguards</strong>
-                <p>An SSRF guard that rejects loopback, private-network and cloud-metadata hosts, a keyed-hash offset that hides exact listing locations, and a release scan for test sign-in code.</p>
+                <p>Moved Android release builds off a limited cloud build quota, with over-the-air updates and a signing-key check before each release.</p>
               </li>
             </ul>
           </article>
@@ -157,8 +153,8 @@
               <div class="panel-body">
                 <p class="stack">Python, Pygame, NumPy</p>
                 <h3>AI Firefighter Rescue Simulation</h3>
-                <p class="metric">1,286 of 2,000 rescue score, 40% above a BFS baseline</p>
-                <p>Eight autonomous agents replan with D* Lite as fire spreads by probability across 1,200 cells. A headless, seed-controlled harness ranks four self-built pathfinders under identical conditions: 921, 1,061, 1,192, then 1,286.</p>
+                <p class="metric">1,286 of 2,000 rescue score, 40% above a standard baseline of 921</p>
+                <p>Eight agents replan with D* Lite as fire spreads through a 3-floor, 1,200-cell building. A repeatable test setup compares four self-built pathfinders (A*, BFS, Dijkstra and D* Lite) on equal terms. In the browser version you report a fire on a city map and dispatch the crew.</p>
                 <div class="links">
                   <a class="magnet" href="https://firefighter-sim.vercel.app" target="_blank" rel="noopener">Open the live app</a>
                   <a class="magnet" href="https://drive.google.com/file/d/16XC8qPywEdDmZpRGQBNo1GQBWOkSqeov/view?usp=sharing" target="_blank" rel="noopener">Read the report</a>
@@ -175,7 +171,7 @@
                 <p class="stack">TensorFlow, Flask, React, Docker</p>
                 <h3>Chest X-Ray Pneumonia Detection</h3>
                 <p class="metric">93.6% accuracy and 0.983 ROC-AUC on 5,863 X-rays</p>
-                <p>EfficientNetB4 fine-tuned with two-phase transfer learning and 10x test-time augmentation, with Grad-CAM heatmaps that show why. It stays live on a 512 MB free-tier host thanks to lazy model loading that ended the out-of-memory crashes.</p>
+                <p>A fine-tuned EfficientNetB4 model, with Grad-CAM heatmaps that highlight the area behind each prediction. The public app has a slider comparing each X-ray to its heatmap, with a React interface on Vercel and a Flask API on Hugging Face Spaces that loads the model on first request.</p>
                 <div class="links">
                   <a class="magnet" href="https://chest-xray-pneumonia-detection-bice.vercel.app/" target="_blank" rel="noopener">Open the live app</a>
                   <a class="magnet" href="https://github.com/AlsoBaker/chest-xray-pneumonia-detection" target="_blank" rel="noopener">View code on GitHub</a>
@@ -190,9 +186,9 @@
               </div>
               <div class="panel-body">
                 <p class="stack">n8n, AWS EC2, LLM APIs</p>
-                <h3>Multi-Platform AI Content Pipeline</h3>
-                <p class="metric">About 60 minutes of publishing work, down to under 3</p>
-                <p>Drop a video in a folder and it publishes itself. The workflow detects the upload, has an LLM write the title and description, and posts to YouTube, Instagram and Facebook at once. Used across more than 20 videos.</p>
+                <h3>AI Content Publishing Pipeline</h3>
+                <p class="metric">About 60 minutes of publishing work per video, down to under 3</p>
+                <p>Drop a video in a Google Drive folder and it publishes itself. An n8n workflow on AWS EC2 detects the file, has an LLM write the title and description, posts it to YouTube and emails a notification. Used across more than 20 videos, with Instagram and Facebook in progress.</p>
               </div>
             </article>
 
@@ -244,12 +240,12 @@
         </div>
         <div class="skills-grid pane">
           <h2 class="sr-only">Skills</h2>
-          <div><h3>Languages</h3><p>C, C++, Python, TypeScript, JavaScript, PHP, SQL, HTML, CSS</p></div>
-          <div><h3>Backend and systems</h3><p>Laravel, Flask, REST APIs, MySQL, Linux, epoll, POSIX threads, TCP sockets</p></div>
-          <div><h3>Mobile and frontend</h3><p>React Native, Expo, React, Vue.js, Tailwind CSS</p></div>
-          <div><h3>ML and robotics</h3><p>TensorFlow, Keras, scikit-learn, OpenCV, Grad-CAM, LLM APIs, ROS 2</p></div>
-          <div><h3>DevOps and testing</h3><p>Git, Docker, GitHub Actions, AWS EC2, Vercel, n8n, ThreadSanitizer, AddressSanitizer</p></div>
-          <div><h3>Foundations</h3><p>Data structures, algorithms, OOP, concurrency, multithreading, networking, CI/CD, testing</p></div>
+          <div><h3>Languages</h3><p>Python, TypeScript, JavaScript, PHP, SQL, C, C++, HTML, CSS</p></div>
+          <div><h3>Backend and systems</h3><p>Laravel, Bagisto, Flask, REST APIs, MySQL, Linux, epoll, POSIX threads, TCP sockets</p></div>
+          <div><h3>Mobile and frontend</h3><p>React Native, Expo, React, Vue 3, Tailwind CSS</p></div>
+          <div><h3>ML and robotics</h3><p>TensorFlow, Keras, scikit-learn, OpenCV, NumPy, Grad-CAM, LLM APIs, ROS 2</p></div>
+          <div><h3>Tools and deployment</h3><p>Git, GitHub Actions, Docker, AWS EC2, Vercel, Hugging Face Spaces, n8n, ThreadSanitizer, AddressSanitizer</p></div>
+          <div><h3>Foundations</h3><p>Data structures, algorithms, OOP, path planning, transfer learning, concurrency, CI/CD, networking</p></div>
         </div>
       </section>
 
