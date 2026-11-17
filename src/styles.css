@@ -312,12 +312,7 @@ main { position: relative; z-index: 3; }
 .rows p { color: var(--soft); }
 
 /* ---------- dusk interlude ---------- */
-.dusk { min-height: 120svh; padding: 20svh var(--gutter) 0; display: flex; align-items: flex-start; }
-.dusk-line {
-  position: sticky; top: 16svh;
-  max-width: 13em; text-wrap: balance;
-  font-size: clamp(1.6rem, 3vw, 3rem); line-height: 1.12; font-weight: 650; letter-spacing: -0.015em;
-}
+.dusk { min-height: 120svh; }
 
 /* ---------- projects ---------- */
 .projects-pin {
